@@ -34,9 +34,11 @@ case ${operation} in
 	$debug && (echo "credentials=$credentials" >> $log)
         stream="$(grep ${netcam} ${motion_camera_conf} | sed -e "s/${netcam}.//")"
 	$debug && (echo "stream=$stream" >> $log)
-        full_stream="$(echo ${stream} | sed -e "s/\/\//\/\/${credentials}@/")"
-	$debug && (echo "ffmpeg -y -i \"${full_stream}\" -c:a aac ${file_path}.aac" >> $log)
-        ffmpeg -y -i "${full_stream}" -c:a aac ${file_path}.aac 2>&1 1>/dev/null &
+        #full_stream="$(echo ${stream} | sed -e "s/\/\//\/\/${credentials}@/")"
+	#$debug && (echo "ffmpeg -y -i \"${full_stream}\" -c:a aac ${file_path}.aac" >> $log)
+        #ffmpeg -y -i "${full_stream}" -c:a aac ${file_path}.aac 2>&1 1>/dev/null &
+	$debug && (echo "arecord -f cd -D \"default:CARD=Device\" | ffmpeg -i - -c:a aac -y ${file_path}.aac" >> $log)
+	arecord -f cd -D "default:CARD=Device" | ffmpeg -i - -c:a aac -y ${file_path}.aac 2>&1 1>/dev/null &
         ffmpeg_pid=$!
         echo ${ffmpeg_pid} > /tmp/motion-audio-ffmpeg-camera-${camera_id}
         # echo ${ffmpeg_pid} > /tmp/motion-audio-ffmpeg-camera-${camera_name}
