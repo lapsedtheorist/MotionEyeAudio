@@ -1,20 +1,22 @@
 #!/usr/bin/env bash
-debug=false
+debug=true
 log=/tmp/MotionEyeAudio.log
 $debug && (date -Iseconds >> $log)
 
 # Set variables
 operation=$1
 $debug && (echo "operation=$operation" >> $log)
-motion_thread_id=$2
-$debug && (echo "motion_thread_id=$motion_thread_id" >> $log)
+camera_id=$2
+$debug && (echo "camera_id=$camera_id" >> $log)
+#motion_thread_id=$2
+#$debug && (echo "motion_thread_id=$motion_thread_id" >> $log)
 file_path=$3
 $debug && (echo "file_path=$file_path" >> $log)
 camera_name=$4
 $debug && (echo "camera_name=$camera_name" >> $log)
 
-camera_id="$(python -c 'import motioneye.motionctl; print motioneye.motionctl.motion_camera_id_to_camera_id('${motion_thread_id}')')"
-$debug && (echo "camera_id=$camera_id" >> $log)
+#camera_id="$(python -c 'import motioneye.motionctl; print motioneye.motionctl.motion_camera_id_to_camera_id('${motion_thread_id}')')"
+#$debug && (echo "camera_id=$camera_id" >> $log)
 motion_config_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 $debug && (echo "motion_config_dir=$motion_config_dir" >> $log)
 motion_camera_conf="${motion_config_dir}/camera-${camera_id}.conf"
