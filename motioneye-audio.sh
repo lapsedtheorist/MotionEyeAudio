@@ -37,6 +37,8 @@ case ${operation} in
         #full_stream="$(echo ${stream} | sed -e "s/\/\//\/\/${credentials}@/")"
 	#$debug && (echo "ffmpeg -y -i \"${full_stream}\" -c:a aac ${file_path}.aac" >> $log)
         #ffmpeg -y -i "${full_stream}" -c:a aac ${file_path}.aac 2>&1 1>/dev/null &
+	$debug && (echo "amixer --card 1 sset 'Mic' 100%" >> $log)
+	amixer --card 1 sset 'Mic' 100%
 	$debug && (echo "arecord -f S16_LE -c 1 -r 22050 -D plughw:1,0 | ffmpeg -i - -c:a aac -y ${file_path}.aac" >> $log)
 	arecord -f S16_LE -c 1 -r 22050 -D plughw:1,0 | ffmpeg -i - -c:a aac -y ${file_path}.aac 2>&1 1>/dev/null &
         ffmpeg_pid=$!
